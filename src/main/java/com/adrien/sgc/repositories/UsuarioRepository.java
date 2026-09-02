@@ -1,4 +1,4 @@
-package com.adrien.sgc.repository;
+package com.adrien.sgc.repositories;
 
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
