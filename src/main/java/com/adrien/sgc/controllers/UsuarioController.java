@@ -3,6 +3,8 @@ package com.adrien.sgc.controllers;
 import java.net.URI;
 import java.util.List;
 
+import com.adrien.sgc.dtos.NivelAcessoRequestDTO;
+import com.adrien.sgc.dtos.RedefinirSenhaRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,6 +52,18 @@ public class UsuarioController {
     @PatchMapping(value = "/{id}/inativar")
     public ResponseEntity<Void> inativar(@PathVariable Long id) {
         service.inativar(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping(value = "/{id}/senha")
+    public ResponseEntity<Void> redefinirSenha(@PathVariable Long id, @Valid @RequestBody RedefinirSenhaRequestDTO dto) {
+        service.redefinirSenha(id, dto);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping(value = "/{id}/nivel-acesso")
+    public ResponseEntity<Void> alterarNivelAcesso(@PathVariable Long id, @Valid @RequestBody NivelAcessoRequestDTO dto) {
+        service.alterarNivelAcesso(id, dto);
         return ResponseEntity.noContent().build();
     }
 }

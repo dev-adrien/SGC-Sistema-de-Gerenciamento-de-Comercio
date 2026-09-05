@@ -1,5 +1,6 @@
 package com.adrien.sgc.controllers;
 
+import com.adrien.sgc.dtos.RecuperarSenhaRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,5 +25,11 @@ public class AuthController {
     public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginRequestDTO dto) {
         LoginResponseDTO response = usuarioService.autenticar(dto);
         return ResponseEntity.ok().body(response);
+    }
+
+    @PostMapping(value = "/recuperar-senha")
+    public ResponseEntity<Void> recuperarSenha(@Valid @RequestBody RecuperarSenhaRequestDTO dto) {
+        usuarioService.solicitarRecuperacaoSenha(dto);
+        return ResponseEntity.noContent().build();
     }
 }
