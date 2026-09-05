@@ -44,4 +44,14 @@ public class ControllerExecptionHandler {
 
   }
 
+  @ExceptionHandler(IllegalArgumentException.class)
+  public ResponseEntity<CustomError> illegalArgument(IllegalArgumentException ex, HttpServletRequest req) {
+    CustomError error = new CustomError();
+    error.setTimestamp(Instant.now());
+    error.setStatus(HttpStatus.BAD_REQUEST.value());
+    error.setError(ex.getMessage());
+    error.setPath(req.getRequestURI());
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+  }
+
 }

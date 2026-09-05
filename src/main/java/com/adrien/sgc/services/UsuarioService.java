@@ -3,6 +3,8 @@ package com.adrien.sgc.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.adrien.sgc.dtos.LoginRequestDTO;
+import com.adrien.sgc.dtos.LoginResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,5 +58,22 @@ public class UsuarioService {
                 .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado com o ID: " + id));
         usuario.setStatus(false);
         usuarioRepository.save(usuario);
+    }
+
+    @Transactional(readOnly = true)
+    public LoginResponseDTO autenticar(LoginRequestDTO dto) {
+        Usuario usuario = usuarioRepository.findByEmail(dto.getEmail())
+                .orElseThrow(() -> new IllegalArgumentException("Credenciais inválidas."));
+
+        if (!usuario.getStatus()) {
+            throw new IllegalArgumentException("Usuário inativo no sistema.");
+        }
+
+        if (!usuario.getSenhaHash().equals(dto.getSenha())) {
+            throw new IllegalArgumentException("Credenciais inválidas.");
+        }
+
+        String token = java.util.UUID.randomUUID().toString();
+        return new LoginResponseDTO(token, "Bearer", new UsuarioResponseDTO(usuario));
     }
 }
