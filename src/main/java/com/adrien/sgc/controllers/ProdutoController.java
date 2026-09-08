@@ -69,4 +69,10 @@ public class ProdutoController {
         service.descontinuar(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping(value = "/alertas/estoque-baixo")
+    public ResponseEntity<List<ProdutoResponseDTO>> listarAbaixoEstoqueMinimo() {
+        List<ProdutoResponseDTO> list = service.listarAbaixoEstoqueMinimo();
+        return ResponseEntity.ok().body(list);
+    }
 }

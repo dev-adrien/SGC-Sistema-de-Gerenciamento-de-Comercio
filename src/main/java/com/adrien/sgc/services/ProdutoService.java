@@ -91,4 +91,12 @@ public class ProdutoService {
         entity.setQtdEstoque(dto.getQtdEstoque());
         entity.setEstoqueMinimo(dto.getEstoqueMinimo());
     }
+
+    @Transactional(readOnly = true)
+    public List<ProdutoResponseDTO> listarAbaixoEstoqueMinimo() {
+        return repository.findAll().stream()
+                .filter(p -> Boolean.FALSE.equals(p.getDescontinuado()) && p.getQtdEstoque() <= p.getEstoqueMinimo())
+                .map(ProdutoResponseDTO::new)
+                .collect(Collectors.toList());
+    }
 }
