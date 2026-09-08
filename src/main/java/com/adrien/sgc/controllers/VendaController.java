@@ -28,6 +28,10 @@ public class VendaController {
     @Autowired
     private VendaService service;
 
+    @Autowired
+    private com.adrien.sgc.services.ReciboService reciboService;
+
+
     @GetMapping
     public ResponseEntity<List<VendaResponseDTO>> listarTodas() {
         List<VendaResponseDTO> list = service.listarTodas();
@@ -54,5 +58,12 @@ public class VendaController {
             @Valid @RequestBody EstornoRequestDTO dto) {
         VendaResponseDTO response = service.estornarVenda(id, dto);
         return ResponseEntity.ok().body(response);
+    }
+
+
+    @GetMapping(value = "/{id}/recibo")
+    public ResponseEntity<com.adrien.sgc.dtos.ReciboResponseDTO> emitirRecibo(@PathVariable Long id) {
+        com.adrien.sgc.dtos.ReciboResponseDTO recibo = reciboService.gerarReciboVenda(id);
+        return ResponseEntity.ok().body(recibo);
     }
 }
