@@ -45,6 +45,9 @@ public class VendaService {
     @Autowired
     private ProdutoRepository produtoRepository;
 
+    @Autowired
+    private LogAuditoriaService logAuditoriaService;
+
     @Transactional(readOnly = true)
     public List<VendaResponseDTO> listarTodas() {
         return vendaRepository.findAll().stream()
@@ -135,8 +138,11 @@ public class VendaService {
 
         venda.setStatus("CANCELADA");
         venda.setMotivoEstorno(dto.getMotivo());
-
         venda = vendaRepository.save(venda);
+
+        String acao = "Estorno da venda #" + venda.getId() + " (" + venda.getNumeroRecibo() + ") - Motivo: " + dto.getMotivo();
+        logAuditoriaService.registrarLog(venda.getUsuario(), acao, "ESTORNO_VENDA", "127.0.0.1");
+
         return new VendaResponseDTO(venda);
     }
 }
