@@ -14,7 +14,7 @@ public class OpenApiConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("SGC - Sistema de Gestão Comercial (RM Versátil)")
+                        .title("SGC - Sistema de Gestão Comercial")
                         .description("API RESTful para controle de estoque, frente de caixa (PDV), gestão de vendas e auditoria.")
                         .version("v1.0.0")
                         .contact(new Contact()
